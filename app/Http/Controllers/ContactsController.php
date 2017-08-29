@@ -20,9 +20,9 @@ class ContactsController extends Controller
     }
 
     /**
-     * Show the application dashboard.
+     * Show the contact book dashboard.
      *
-     * @return \Illuminate\Http\Response
+     * @return contacts view
      */
     public function index()
     {
@@ -30,6 +30,11 @@ class ContactsController extends Controller
          return view('contacts', array('contacts' => $contacts));
     }
 
+    /**
+     * Show all contacts as json response for ajax.
+     *
+     * @return response JSON
+     */
     public function showall()
     {
          $contacts = Contacts::where('user_id',Auth::user()->id)->get();
@@ -37,9 +42,10 @@ class ContactsController extends Controller
          return response()->json($contacts);
     }
     /**
-     * Show the form for creating a new resource.
+     * Create a new contact.
      *
-     * @return Response
+     * @param  request  $request
+     * @return response view
      */
     public function create(Request $request)
     {
@@ -64,15 +70,21 @@ class ContactsController extends Controller
           return view('response', array('response' => 'Created! '.$get));
     }
 
-    public function syncContact(array $newContactData, \ActiveCampaign $ac)
+    /**
+     * Sync the contact record in ActiveCampaign.
+     *
+     * @param Array $contactData
+     * @return response
+     */
+    public function syncContact(array $contactData, \ActiveCampaign $ac)
     {
-        return $ac->api('contact/sync', $newContactData)->success;
+        return $ac->api('contact/sync', $contactData)->success;
     }
     /**
-     * Display the specified resource.
+     * Display the specified contact.
      *
      * @param  int  $id
-     * @return Response
+     * @return response JSON
      */
     public function show($id)
     {
@@ -80,19 +92,18 @@ class ContactsController extends Controller
         $contactDetails = ContactDetails::where('contact_id',$id)->get();
         $contact['details'] = $contactDetails;
         $contact = json_encode($contact);
-        //return view('response', array('response' => $contact));
         return response()->json($contact);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Edit a specific contact.
      *
-     * @param  int  $id
-     * @return Response
+     * @param  request  $request
+     * @return response view
      */
     public function edit(Request $request)
     {
-        //
+
           $id = $request->get('id');
           $contacts = Contacts::find($id);
           $contacts->first_name = $request->get('efirst_name');
@@ -100,30 +111,24 @@ class ContactsController extends Controller
           $contacts->phone = $request->get('ephone');
           $contacts->save();
 
-          $newContactData = array(
+          $editContactData = array(
                'first_name' => $request->get('efirst_name'),
                'last_name' => $request->get('elast_name'),
                'email' => $request->get('hemail'),
                'phone' => $request->get('ephone')
           );
           $ac = app('ActiveCampaign');
-          $acresponse  = $this->syncContact($newContactData, $ac);
+          $acresponse  = $this->syncContact($editContactData, $ac);
 
           return view('response', array('response' => 'updated!'));
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Create custom field for contact
      *
-     * @param  int  $id
-     * @return Response
+     * @param  request  $request
+     * @return response view
      */
-    public function destroy($id)
-    {
-        //
-    }
-
-
     public function createDetail(Request $request)
     {
 
@@ -135,6 +140,12 @@ class ContactsController extends Controller
           return view('response', array('response' => 'Created Detail'));
     }
 
+    /**
+     * Delete custom field for contact
+     *
+     * @param  int  $id
+     * @return response view
+     */
     public function removeDetail($id)
     {
 

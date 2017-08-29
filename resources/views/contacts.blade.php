@@ -87,7 +87,7 @@
                             <label for="phone" class="col-md-4 control-label">Phone</label>
 
                             <div class="col-md-6">
-                                <input id="phone" type="text" class="form-control" name="phone" value="" required>
+                                <input id="phone" class="form-control" name="phone" value="" required type="tel" pattern="\d{3}[\-]\d{3}[\-]\d{4}" placeholder="123-456-7890">
                             </div>
                         </div>
 
@@ -150,7 +150,7 @@
                             <label for="ephone" class="col-md-4 control-label">Phone</label>
 
                             <div class="col-md-6">
-                                <input id="ephone" type="text" class="form-control" name="ephone" value="" required>
+                                <input id="ephone" class="form-control" name="ephone" value="" required type="tel" pattern="\d{3}[\-]\d{3}[\-]\d{4}" placeholder="123-456-7890">
                             </div>
                         </div>
 

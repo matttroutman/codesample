@@ -14,7 +14,7 @@ $( "#addContactForm" ).submit(function( event ) {
                loadContacts();
            },
            error: function (error) {
-               $("#error_msg").html('Error creating contact, please try again.');
+               $("#error_msg").html('Error creating contact, that contact email is already in the system or you just plain entered bad data.');
                $("#error_msg").show();
                $("#success_msg").hide();
            }
@@ -39,7 +39,7 @@ $( "#editContactForm" ).submit(function( event ) {
                loadContacts();
            },
            error: function (error) {
-               $("#error_msg").html('Error saving contact, please try again.');
+               $("#error_msg").html('Error saving contact, please try again and avoid making the same silly error this time.');
                $("#error_msg").show();
                $("#success_msg").hide();
            }
@@ -92,7 +92,7 @@ function editContactDetails( id ) {
                $('#custom_fields').html(customFields);
            },
            error: function (error) {
-               console.log('Error loading contact details.');
+               console.log('Error: Unable to load contact details.');
            }
          });
 
@@ -123,7 +123,7 @@ function loadContacts () {
                 $('#contactsTable').html(contactsTable);
            },
            error: function (error) {
-               console.log('Error loading contacts.');
+               console.log('Error: Unable to load contacts.');
            }
          });
 
@@ -143,7 +143,7 @@ function addDetail () {
                editContactDetails( $('#id').val() )
            },
            error: function (error) {
-               console.log('No value passed.');
+               console.log('Error: No value passed.');
            }
      });
 
@@ -162,7 +162,7 @@ function removeDetail (id) {
                editContactDetails( $('#id').val() )
            },
            error: function (error) {
-               console.log('Error saving detail.');
+               console.log('Error: Unable to remove custom field.');
            }
     });
 };
