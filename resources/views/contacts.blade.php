@@ -13,7 +13,7 @@
                         </div>
                         <div id="error_msg" class="alert alert-danger" style="display:none;">
                         </div>
-
+                    <input type="text" id="searchBox" onkeyup="searchFunction()" class="form-control" placeholder="Search any field.."><br />
                     <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#addContact">Add New Contact</button>
                     <hr />
                     @if (isset($contacts))

@@ -1,3 +1,27 @@
+function searchFunction() {
+
+  var input, filter, table, tr, td, i;
+  input = document.getElementById("searchBox");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("contactsTable");
+  tr = table.getElementsByTagName("tr");
+
+  for (i = 0; i < tr.length; i++) {
+    for (t = 0; t < 4; t++) {
+    td = tr[i].getElementsByTagName("td")[t];
+    if (td) {
+      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+        break;
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+    }
+  }
+}
+
+
 $( "#addContactForm" ).submit(function( event ) {
    event.preventDefault();
    var url = "contacts/create";
