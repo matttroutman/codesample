@@ -22,13 +22,6 @@ class CreateContactsTable extends Migration
 	    $table->integer('user_id');
     	    $table->timestamps();
         });
-
-	Schema::create('contacts_meta', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('value');
-            $table->integer('contact_id');
-            $table->timestamps();
-        });
     }
 
     /**
@@ -39,6 +32,5 @@ class CreateContactsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('contacts');
-	Schema::dropIfExists('contacts_meta');
     }
 }
