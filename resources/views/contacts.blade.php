@@ -58,7 +58,6 @@
       </div>
       <div class="modal-body">
           <form class="form-horizontal" method="POST" id="addContactForm">
-          <input type="hidden" name="user_id" id="user_id" value="{{ Auth::user()->id }}">
                         <div class="form-group">
                             <label for="first_name" class="col-md-4 control-label">First Name</label>
 

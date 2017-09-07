@@ -55,7 +55,7 @@ class ContactsController extends Controller
           $contacts->last_name = $request->get('last_name');
           $contacts->email = $request->get('email');
           $contacts->phone = $request->get('phone');
-          $contacts->user_id = $request->get('user_id');
+          $contacts->user_id = Auth::user()->id;
           $contacts->save();
 
           $newContactData = array(
@@ -88,8 +88,12 @@ class ContactsController extends Controller
      */
     public function show($id)
     {
-        $contact = Contacts::find($id);
-        $contactDetails = ContactDetails::where('contact_id',$id)->get();
+        //$contact = Contacts::find($id);
+        $contact = Contacts::where([
+                 ['id', '=', $id],
+                 ['user_id', '=', Auth::user()->id],
+             ])->first();
+        $contactDetails = ContactDetails::where('contact_id',$contact['id'])->get();
         $contact['details'] = $contactDetails;
         $contact = json_encode($contact);
         return response()->json($contact);
@@ -105,7 +109,10 @@ class ContactsController extends Controller
     {
 
           $id = $request->get('id');
-          $contacts = Contacts::find($id);
+          $contacts = Contacts::where([
+                 ['id', '=', $id],
+                 ['user_id', '=', Auth::user()->id],
+             ])->first();
           $contacts->first_name = $request->get('efirst_name');
           $contacts->last_name = $request->get('elast_name');
           $contacts->phone = $request->get('ephone');
@@ -135,6 +142,7 @@ class ContactsController extends Controller
           $contactDetails = new ContactDetails;
           $contactDetails->value = $request->get('custom_field');
           $contactDetails->contact_id = $request->get('id');
+          $contactDetails->user_id = Auth::user()->id;
           $contactDetails->save();
 
           return view('response', array('response' => 'Created Detail'));
@@ -149,7 +157,10 @@ class ContactsController extends Controller
     public function removeDetail($id)
     {
 
-          ContactDetails::destroy($id);
+          ContactDetails::where([
+                 ['id', '=', $id],
+                 ['user_id', '=', Auth::user()->id],
+             ])->delete();
           return view('response', array('response' => 'Removed Detail'));
     }
 }
